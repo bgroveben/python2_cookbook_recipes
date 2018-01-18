@@ -4,4 +4,4 @@ I'm pretty sure that everything in here will be written in 2.7.x, but keep an ey
 This repository is a collection of programs, files, books, magic spells, and so on.  
 I will do my best to make sure all of my sources are properly attributed, so please bear with me.
 
-Chapter 1, pp 25 Iteration
+Chapter 1, p 26 Iteration -- Update vulnerability-checking script
