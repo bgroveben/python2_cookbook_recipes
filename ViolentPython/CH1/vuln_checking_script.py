@@ -1,5 +1,6 @@
 # Now our script will test all 254 IP addresses on the 192.168.95.0/24 subnet
 # with the ports offering telnet, SSH, smtp, http, imap, and https services.
+# This file should behave the same way as 1-vulnScanner.py.
 
 import socket
 
