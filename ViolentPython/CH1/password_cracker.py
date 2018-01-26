@@ -1,3 +1,5 @@
+# This file should behave the same way as 2-passwdCrack.py.
+
 # The real strength of the Python programming language lies in the wide array
 # of standard and third-party libraries.
 # To write our UNIX password cracker, we will need to use the crypt() algorithm
@@ -51,7 +53,25 @@ def testPass(cryptPass):
     return
 
 def main():
-    pass
+    passFile = open('passwords.txt')
+    for line in passFile.readlines():
+        if ":" in line:
+            user = line.split(':')[0]
+            cryptPass = line.split(':')[1].strip(' ')
+            print "[*] Cracking Password For: " + user
+            testPass(cryptPass)
+
 
 if __name__=="__main__":
     main()
+
+# On modern *Nix based operating systems, the /etc/shadow file stores the
+# hashed password and provides the ability to use more secure hashing
+# algorithms.
+# The following example uses the SHA-512 hashing algorithm.
+# SHA-512 functionality is provided by the Python hashlib library.
+# Can you update the script to crack SHA-512 hashes?
+#
+# >>> cat /etc/shadow | grep root
+# [=> root:$6$ms32yIGN$NyXj0YofkK14MpRwFHvXQW0yvUid.slJtgxHE2EuQqgD74S/\
+# GaGGs5VCnqeC.bS0MzTf/EFS3uspQMNeepIAc.:15503:0:99999:7:::
