@@ -5,4 +5,4 @@ Copyright © 2013 Elsevier, Inc. All rights reserved.
 ISBN: 978-1-59749-957-6  
 
 
-Chapter 1, 35 Setting the Stage for Your Second Program: Using Evil for Good
+Chapter 1, 38 Let’s clean up our code a little bit at this point.
