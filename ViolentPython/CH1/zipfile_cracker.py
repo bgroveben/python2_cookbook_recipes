@@ -62,3 +62,43 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# With our program modularized into separate functions, we can now increase our
+# performance.
+# Instead of trying each word in the dictionary one at a time, we will utilize
+# threads of execution to allow simultaneous testing of multiple passwords.
+# For each word in the dictionary, we will spawn a new thread of execution.
+# https://docs.python.org/2/library/threading.html#thread-objects
+
+import zipfile
+from threading import Thread
+
+"""
+https://docs.python.org/2/library/threading.html
+CPython implementation detail:
+In CPython, due to the Global Interpreter Lock, only one thread can execute
+Python code at once (even though certain performance-oriented libraries might
+overcome this limitation).
+If you want your application to make better use of the computational resources
+of multi-core machines, you are advised to use multiprocessing.
+However, threading is still an appropriate model if you want to run multiple
+I/O-bound tasks simultaneously.
+"""
+
+def extractFile(zFile, password):
+    try:
+        zFile.extractall(pwd=password)
+        print '[+] Found Password: ' + password + '\n'
+    except:
+        pass
+
+def main():
+    zFile = zipfile.ZipFile('evil.zip')
+    passFile = open('dictionary.txt')
+    for line in passFile.readlines():
+        password = line.strip('\n')
+        t = Thread(target=extractFile, args=(zFile, password))
+        t.start()
+
+if __name__ == '__main__':
+    main()
