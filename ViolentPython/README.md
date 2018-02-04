@@ -5,4 +5,4 @@ Copyright © 2013 Elsevier, Inc. All rights reserved.
 ISBN: 978-1-59749-957-6  
 
 
-Chapter 1, 39  Now let’s modify our script to allow the user...
+Chapter 1, 40 CHAPTER WRAP-UP and refactor/clean up zipfile_cracker.py file.

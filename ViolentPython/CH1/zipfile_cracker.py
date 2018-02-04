@@ -6,12 +6,15 @@
 # Let's start with some examples first:
 
 import zipfile
+import optparse
+from threading import Thread
 
-zFile = zipfile.ZipFile("evil.zip")
-try:
-    zFile.extractall(pwd="oranges")
-except Exception, e:
-    print e
+def extractFile(zFile, password)
+    try:
+        zFile.extractall(pwd=password)
+        print '[+] found password ' + password + '\n'
+    except:
+        pass
 
 # [=> ('Bad password for file', <zipfile.ZipInfo object at 0x106c7a2a8>)
 """
@@ -51,6 +54,29 @@ def extractFile(zFile, password):
         return
 
 def main():
+    parser = optparse.OptionParser("usage%prog " +\
+    "-f <zipfile> -d <dictionary>")
+    parser.add_option('-f', dest='zname', type='string', \
+    help='Please specify zip file.')
+    parser.add_option('-d', dest='dname', type='string', \
+    help='Please specify dictionary file.')
+    (options, args) = parser.parse_args()
+    if (options.zname == None) | (options.dname == None):
+        print parser.usage
+        exit(0)
+    else:
+        zname = options.zname
+        dname = options.dname
+    zFile = zipfile.ZipFile(zname)
+    passFile = open(dname)
+    for line in passFile.readlines():
+        password = line.strip('\n')
+        t = Thread(target=extractFile, args=(zFile, password))
+        t.start()
+
+if __name__ == '__main__':
+    main()
+
     zFile = zipfile.ZipFile('evil.zip')
     passFile = open('dictionary.txt')
     for line in passFile.readlines():
