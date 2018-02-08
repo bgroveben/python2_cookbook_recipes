@@ -16,6 +16,8 @@ from datetime import datetime
 subprocess.call('clear', shell=True)
 
 remoteServer = raw_input("Enter a remote host to scan: ")
+# If you want an easy demo, just enter the IPv$ loopback address -- 127.0.0.1
+# I haven't tested for the IPv6 loopback address -- ::1
 remoteServerIP = socket.gethostbyname(remoteServer)
 
 # Banner to give the user information about the host about to be scanned:
