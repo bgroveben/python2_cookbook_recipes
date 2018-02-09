@@ -27,18 +27,59 @@ In contrast, a TCP Connect Scan uses the full three-way handshake to determine t
 """
 
 import optparse
+from socket import *
 ################################################################################
 # The following example shows a quick method for parsing the target hostname
 # and port to scan.
 parser = optparse.OptionParser('This program requires the following arguments: -H <target host> -p <target port>')
 parser.add_option('-H', dest='tgtHost', type='string', \
     help='specify target host')
-parser.add_option('-p', dest='tgtPort', type='int', \
-    help='specify target port')
+parser.add_option('-p', dest='tgtPort', type='string',\
+    help='specify target port[s] separated by comma')
 (options, args) = parser.parse_args()
 tgtHost = options.tgtHost
-tgtPort = options.tgtPort
+tgtPorts = str(options.tgtPort).split(',')
 
-if (tgtHost == None) | (tgtPort == None):
+if (tgtHost == None) | (tgtPorts == None):
     print parser.usage
     exit(0)
+
+################################################################################
+# Next, we will build two functions connScan and portScan.
+
+# The portScan function takes the hostname and target ports as arguments.
+# It will first attempt to resolve an IP address to a friendly hostname using
+# the gethostbyname() function.
+# Next, it will print the hostname (or IP address) and enumerate through each
+# individual port attempting to connect using the connScan function.
+
+# The connScan function will take two arguments: tgtHost and tgtPort, and
+# attempt to create a connection to the target host and port.
+# If it is successful, connScan will print an open port message.
+# If unsuccessful, it will print the closed port message.
+
+def connScan(tgtHost, tgtPort):
+    try:
+        connSkt = socket(AF_INET, SOCK_STREAM)
+        connSkt.connect((tgtHost, tgtPort))
+        print '[+] %d / tcp open'%tgtPort
+        connSkt.close()
+    except:
+        print '[-] %d / tcp closed'%tgtPort
+
+def portScan(tgtHost, tgtPorts):
+    try:
+        tgtIp = gethostbyname(tgtHost)
+    except:
+        print "[-] Cannot resolve '%s': unknown host"%tgtHost
+        return
+    try:
+        tgtName = gethostbyaddr(tgtIP)
+        print '\n[+] Scan Results for: ' + tgtName[0]
+    except:
+        print '\n[+] Scan Results for: ' + tgtIp
+    setdefaulttimeout(1)
+
+    for tgtPort in tgtPorts:
+        print 'Scanning port ' + tgtPort
+        connScan(tgtHost, int(tgtPort))
