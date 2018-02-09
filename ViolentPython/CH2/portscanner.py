@@ -25,3 +25,20 @@ An attacker routinely performs a port scan in the opening salvo of any successfu
 One type of port scan includes sending a TCP SYN packet to a series of common ports and waiting for a TCP ACK response that will result in signaling an open port.
 In contrast, a TCP Connect Scan uses the full three-way handshake to determine the availability of the service or port.
 """
+
+import optparse
+################################################################################
+# The following example shows a quick method for parsing the target hostname
+# and port to scan.
+parser = optparse.OptionParser('This program requires the following arguments: -H <target host> -p <target port>')
+parser.add_option('-H', dest='tgtHost', type='string', \
+    help='specify target host')
+parser.add_option('-p', dest='tgtPort', type='int', \
+    help='specify target port')
+(options, args) = parser.parse_args()
+tgtHost = options.tgtHost
+tgtPort = options.tgtPort
+
+if (tgtHost == None) | (tgtPort == None):
+    print parser.usage
+    exit(0)
