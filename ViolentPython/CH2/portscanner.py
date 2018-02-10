@@ -32,7 +32,7 @@ from socket import *
 ################################################################################
 # The following example shows a quick method for parsing the target hostname
 # and port to scan.
-parser = optparse.OptionParser('This program requires the following arguments: -H <target host> -p <target port>')
+parser = optparse.OptionParser('This program requires the following arguments: -H <target host> -p <target port>\nPlease separate the target ports with a comma and no space')
 parser.add_option('-H', dest='tgtHost', type='string', \
     help='specify target host')
 parser.add_option('-p', dest='tgtPort', type='string',\
@@ -59,6 +59,11 @@ if (tgtHost == None) | (tgtPorts == None):
 # If it is successful, connScan will print an open port message.
 # If unsuccessful, it will print the closed port message.
 
+import optparse
+import socket
+from socket import *
+
+
 def connScan(tgtHost, tgtPort):
     try:
         connSkt = socket(AF_INET, SOCK_STREAM)
@@ -83,10 +88,23 @@ def portScan(tgtHost, tgtPorts):
     except:
         print '\n[+] Scan Results for: ' + tgtIp
     setdefaulttimeout(1)
-
     for tgtPort in tgtPorts:
         print 'Scanning port ' + tgtPort
         connScan(tgtHost, int(tgtPort))
+
+def main():
+    parser = optparse.OptionParser('This program requires the following arguments: -H <target host> -p <target port>')
+    parser.add_option('-H', dest='tgtHost', type='string', \
+        help='Please specify target host')
+    parser.add_option('-p', dest='tgtPort', type='string', \
+        help='Please separate multiple ports with a comma')
+    (options, args) = parser.parse_args()
+    tgtHost = options.tgtHost
+    tgtPorts = str(options.tgtPort).split(',')
+    if (tgtHost == None) | (tgtPorts[0] == None):
+        print '[-] Please specify a target host and at least one port'
+        exit(0)
+    portScan(tgtHost, tgtPorts)
 
 
 if __name__ == '__main__':
