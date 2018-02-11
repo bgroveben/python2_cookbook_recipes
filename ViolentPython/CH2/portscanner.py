@@ -19,7 +19,6 @@ Python, like most modern languages, provides access to the BSD socket interface.
 https://en.wikipedia.org/wiki/Berkeley_sockets
 BSD sockets provide an application-programming interface that allows coders to write applications in order to perform network communications between hosts.
 Through a series of socket API functions, we can create, bind, listen, connect, or send traffic on TCP/IP sockets.
-At this point, a greater understanding of TCP/IP and sockets are needed in order to help further develop our own attacks.
 
 An attacker routinely performs a port scan in the opening salvo of any successful cyber assault.
 One type of port scan includes sending a TCP SYN packet to a series of common ports and waiting for a TCP ACK response that will result in signaling an open port.
@@ -32,6 +31,7 @@ from socket import *
 ################################################################################
 # The following example shows a quick method for parsing the target hostname
 # and port to scan.
+# This example will evolve into the main() function later.
 parser = optparse.OptionParser('This program requires the following arguments: -H <target host> -p <target port>\nPlease separate the target ports with a comma and no space')
 parser.add_option('-H', dest='tgtHost', type='string', \
     help='specify target host')
@@ -46,18 +46,7 @@ if (tgtHost == None) | (tgtPorts == None):
     exit(0)
 
 ################################################################################
-# Next, we will build two functions connScan and portScan.
-
-# The portScan function takes the hostname and target ports as arguments.
-# It will first attempt to resolve an IP address to a friendly hostname using
-# the gethostbyname() function.
-# Next, it will print the hostname (or IP address) and enumerate through each
-# individual port attempting to connect using the connScan function.
-
-# The connScan function will take two arguments: tgtHost and tgtPort, and
-# attempt to create a connection to the target host and port.
-# If it is successful, connScan will print an open port message.
-# If unsuccessful, it will print the closed port message.
+# Next, we will build two functions: connScan and portScan.
 
 import optparse
 import socket
@@ -65,6 +54,12 @@ from socket import *
 
 
 def connScan(tgtHost, tgtPort):
+    """
+    The connScan function will take two arguments: tgtHost and tgtPort, and
+    attempt to create a connection to the target host and port.
+    If it is successful, connScan will print an open port message.
+    If unsuccessful, it will print the closed port message.
+    """
     try:
         connSkt = socket(AF_INET, SOCK_STREAM)
         connSkt.connect((tgtHost, tgtPort))
@@ -77,6 +72,13 @@ def connScan(tgtHost, tgtPort):
         print '[-] %d / tcp closed'%tgtPort
 
 def portScan(tgtHost, tgtPorts):
+    """
+    The portScan function takes the hostname and target ports as arguments.
+    It will first attempt to resolve an IP address to a friendly hostname using
+    the gethostbyname() function.
+    Next, it will print the hostname (or IP address) and enumerate through each
+    individual port attempting to connect using the connScan function.
+    """
     try:
         tgtIp = gethostbyname(tgtHost)
     except:
