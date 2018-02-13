@@ -4,4 +4,4 @@
 Copyright © 2013 Elsevier, Inc. All rights reserved.  
 ISBN: 978-1-59749-957-6  
 
-Chapter 2 - 49 -- Threading the Scan - def main()
+Chapter 2 - 49 -- Integrating the Nmap Port Scanner

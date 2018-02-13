@@ -1,6 +1,7 @@
 
 """
 This program is part of a simulated computer worm.
+It's a script for performing a TCP connect scan.
 
 Can we use the Python programming language to re-create a version of the Morris Worm?
 https://en.wikipedia.org/wiki/Morris_worm
