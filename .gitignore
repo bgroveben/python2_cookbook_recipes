@@ -1,3 +1,6 @@
+### PSI Potentially sensitive information
+*.txt
+
 ### Mac OSX files:
 # General
 .DS_Store
