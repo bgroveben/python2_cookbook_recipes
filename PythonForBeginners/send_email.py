@@ -42,3 +42,30 @@ server.sendmail('you@gmail.com', 'target@example.com', msg)
 # Use the email package to include a subject, or any other headers.
 
 ### Email Package Usage
+
+# Import the classes we need:
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
+
+# Basic message headers:
+fromaddr = "sender@gmail.com"
+toaddr = "receiver@example.com"
+msg = MIMEMultipart()
+msg['From'] = fromaddr
+msg['To'] = toaddr
+msg['Subject'] = "Use Python to Send Email"
+
+# We can attach the body of the email to the MIME message:
+body = "Lorem ipsum dolor sit amet, consectetur adipisicing email test."
+msg.attach(MIMEText(body, 'plain'))
+
+# We can use the SMTP server again, but we have to make sure we're sending
+# a string.
+import smtplib
+server = smtplib.SMTP('smtp.gmail.com', 587)
+server.ehlo()
+server.starttls()
+server.ehlo()
+server.login("username", "password")
+text = msg.as_string()
+server.sendmail(fromaddr, toaddr, text)
